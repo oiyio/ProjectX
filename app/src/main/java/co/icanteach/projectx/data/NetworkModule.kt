@@ -1,5 +1,7 @@
 package co.icanteach.projectx.data
 
+import android.app.Application
+import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,8 +21,15 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideChuck(application: Application): ChuckInterceptor {
+        return ChuckInterceptor(application);
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, chuck : ChuckInterceptor): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
+        okHttpBuilder.addInterceptor(chuck)
         okHttpBuilder.addInterceptor(loggingInterceptor)
         return okHttpBuilder.build()
     }

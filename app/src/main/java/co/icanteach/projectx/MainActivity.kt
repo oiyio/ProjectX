@@ -40,7 +40,10 @@ class MainActivity : AppCompatActivity() {
             renderPopularTVShows(it)
         }
 
-        fetchMovies(FIRST_PAGE)
+        if(savedInstanceState==null) {
+            fetchMovies(FIRST_PAGE)
+        }
+
         initPopularTVShowsRecyclerView()
     }
 

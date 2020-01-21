@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import co.icanteach.projectx.common.Resource
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 
 /**
@@ -32,4 +34,9 @@ fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Un
     this.observe(owner, Observer {
         it?.let(observer)
     })
+}
+
+
+operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
+    add(disposable)
 }
